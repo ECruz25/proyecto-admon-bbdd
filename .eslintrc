@@ -1,0 +1,20 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": ["google"],
+  "rules": {
+    "linebreak-style": "off",
+    "no-console": 0,
+    "comma-dangle": 1,
+    "no-unused-vars": 1,
+    "arrow-parens": ["error", "as-needed"]
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 8,
+    "esversion": 6
+  },
+  "plugins": ["html", "react"]
+}
