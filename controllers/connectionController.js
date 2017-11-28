@@ -74,13 +74,13 @@ const createMSSQLConnection = (connection, res) => {
     });
 };
 
-const createMySQLConnection = res => {
+const createMySQLConnection = (connection, res) => {
   const knex = require('knex')({
     client: 'mysql',
     connection: {
       host: '127.0.0.1',
-      user: 'root',
-      password: 'root',
+      user: `${connection.username}`,
+      password: `${connection.password}`,
       database: 'mydb'
     }
   });
