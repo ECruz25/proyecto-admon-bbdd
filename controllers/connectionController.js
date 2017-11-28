@@ -34,7 +34,7 @@ exports.getConnection = async (req, res) => {
       createMSSQLConnection(connection, res);
       break;
     case 'mysql':
-      createMySQLConnection();
+      createMySQLConnection(res);
       break;
     case 'pg':
       break;
@@ -74,7 +74,7 @@ const createMSSQLConnection = (connection, res) => {
     });
 };
 
-const createMySQLConnection = () => {
+const createMySQLConnection = res => {
   const knex = require('knex')({
     client: 'mysql',
     connection: {
