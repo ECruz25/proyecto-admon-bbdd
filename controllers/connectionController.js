@@ -34,9 +34,10 @@ exports.getConnection = async (req, res) => {
       createMSSQLConnection(connection, res);
       break;
     case 'mysql':
-      createMySQLConnection(res);
+      createMySQLConnection(connection, res);
       break;
     case 'pg':
+      createMySQLConnection(connection, res);
       break;
     default:
       console.log('No entro');
@@ -58,17 +59,42 @@ const createMSSQLConnection = (connection, res) => {
       port: 1443
     }
   });
-  knex
+  // knex
+  //   .select(
+  //     { instanceId: 'instance_id' },
+  //     { jobId: 'job_id' },
+  //     { stepName: 'step_name' },
+  //     'message',
+  //     {
+  //       status: 'run_status'
+  //     },
+  //     { runDate: 'run_date' },
+  //     { runTime: 'run_time' }
+  //   )
+  //   .from('msdb.dbo.sysjobhistory')
+  //   .orderBy('run_time')
+  //   .then(selection => {
+  //     res.json(selection);
+  //   });
+  knex('msdb.dbo.sysjobs')
+    .join(
+      'msdb.dbo.sysjobhistory',
+      'msdb.dbo.sysjobs.job_id',
+      '=',
+      'msdb.dbo.sysjobhistory.job_id'
+    )
     .select(
+      { jobName: 'name' },
       { instanceId: 'instance_id' },
-      { jobId: 'job_id' },
+      { jobId: 'msdb.dbo.sysjobhistory.job_id' },
       { stepName: 'step_name' },
       'message',
       {
         status: 'run_status'
-      }
+      },
+      { runDate: 'run_date' },
+      { runTime: 'run_time' }
     )
-    .from('msdb.dbo.sysjobhistory')
     .then(selection => {
       res.json(selection);
     });
@@ -79,17 +105,29 @@ const createMySQLConnection = (connection, res) => {
     client: 'mysql',
     connection: {
       host: '127.0.0.1',
-      user: `${connection.username}`,
-      password: `${connection.password}`,
+      user: `root`,
+      password: 'root',
       database: 'mydb'
     }
   });
   knex
     .select('*')
-    .from('table1')
+    .from('INFORMATION_SCHEMA.events')
     .then(selection => {
       res.json(selection);
     });
+};
+
+const createPOSTGRESQLConnection = (connection, res) => {
+  const knex = require('knex')({
+    client: 'mysql',
+    connection: {
+      host: '127.0.0.1',
+      user: `root`,
+      password: 'root',
+      database: 'mydb'
+    }
+  });
 };
 
 exports.createMSSQLConnection;
