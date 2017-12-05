@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class ConnectionForm extends Component {
   constructor() {
     super();
     this.state = {
-      client: 'mssql'
+      client: "mssql"
     };
   }
 
   onSubmit = e => {
     e.preventDefault();
-    fetch('/server/register', {
+    fetch("/server/register", {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         form: this.state
       })
