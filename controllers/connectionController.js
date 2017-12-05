@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const Connection = require('../models/Connection');
-const promisify = require('es6-promisify');
+const mongoose = require("mongoose");
+const Connection = require("../models/Connection");
+const promisify = require("es6-promisify");
 
 exports.register = async (req, res) => {
-  console.log('entroo');
+  console.log("entroo");
   console.log(req.body.form);
   const connection = new Connection({
     connectionName: req.body.form.connectionName,
@@ -30,17 +30,17 @@ exports.getConnection = async (req, res) => {
   const connection = await Connection.findById(req.params.id);
 
   switch (connection.client) {
-    case 'mssql':
+    case "mssql":
       createMSSQLConnection(connection, res);
       break;
-    case 'mysql':
+    case "mysql":
       createMySQLConnection(connection, res);
       break;
-    case 'pg':
-      createMySQLConnection(connection, res);
+    case "pg":
+      createPOSTGRESQLConnection(connection, res);
       break;
     default:
-      console.log('No entro');
+      console.log("No entro");
       break;
   }
 
@@ -49,8 +49,8 @@ exports.getConnection = async (req, res) => {
 };
 
 const createMSSQLConnection = (connection, res) => {
-  const knex = require('knex')({
-    client: 'mssql',
+  const knex = require("knex")({
+    client: "mssql",
     connection: {
       server: `localhost\\${connection.connectionName}`,
       database: `master`,
@@ -59,41 +59,24 @@ const createMSSQLConnection = (connection, res) => {
       port: 1443
     }
   });
-  // knex
-  //   .select(
-  //     { instanceId: 'instance_id' },
-  //     { jobId: 'job_id' },
-  //     { stepName: 'step_name' },
-  //     'message',
-  //     {
-  //       status: 'run_status'
-  //     },
-  //     { runDate: 'run_date' },
-  //     { runTime: 'run_time' }
-  //   )
-  //   .from('msdb.dbo.sysjobhistory')
-  //   .orderBy('run_time')
-  //   .then(selection => {
-  //     res.json(selection);
-  //   });
-  knex('msdb.dbo.sysjobs')
+  knex("msdb.dbo.sysjobs")
     .join(
-      'msdb.dbo.sysjobhistory',
-      'msdb.dbo.sysjobs.job_id',
-      '=',
-      'msdb.dbo.sysjobhistory.job_id'
+      "msdb.dbo.sysjobhistory",
+      "msdb.dbo.sysjobs.job_id",
+      "=",
+      "msdb.dbo.sysjobhistory.job_id"
     )
     .select(
-      { jobName: 'name' },
-      { instanceId: 'instance_id' },
-      { jobId: 'msdb.dbo.sysjobhistory.job_id' },
-      { stepName: 'step_name' },
-      'message',
+      { jobName: "name" },
+      { instanceId: "instance_id" },
+      { jobId: "msdb.dbo.sysjobhistory.job_id" },
+      { stepName: "step_name" },
+      "message",
       {
-        status: 'run_status'
+        status: "run_status"
       },
-      { runDate: 'run_date' },
-      { runTime: 'run_time' }
+      { runDate: "run_date" },
+      { runTime: "run_time" }
     )
     .then(selection => {
       res.json(selection);
@@ -101,33 +84,40 @@ const createMSSQLConnection = (connection, res) => {
 };
 
 const createMySQLConnection = (connection, res) => {
-  const knex = require('knex')({
-    client: 'mysql',
+  const knex = require("knex")({
+    client: "mysql",
     connection: {
-      host: '127.0.0.1',
+      host: "127.0.0.1",
       user: `root`,
-      password: 'root',
-      database: 'mydb'
+      password: "root",
+      database: "mydb"
     }
   });
   knex
-    .select('*')
-    .from('INFORMATION_SCHEMA.events')
+    .select("*")
+    .from("INFORMATION_SCHEMA.events")
     .then(selection => {
       res.json(selection);
     });
 };
 
 const createPOSTGRESQLConnection = (connection, res) => {
-  const knex = require('knex')({
-    client: 'mysql',
+  console.log("Entrooo");
+  const knex = require("knex")({
+    client: "pg",
     connection: {
-      host: '127.0.0.1',
-      user: `root`,
-      password: 'root',
-      database: 'mydb'
+      host: "localhost",
+      user: "postgres",
+      password: "Yankees2017",
+      database: "testdatabase"
     }
   });
+  knex
+    .select("*")
+    .from("test")
+    .then(selection => {
+      res.json(selection);
+    });
 };
 
 exports.createMSSQLConnection;
