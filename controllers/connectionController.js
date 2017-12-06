@@ -106,10 +106,10 @@ const createPOSTGRESQLConnection = (connection, res) => {
   const knex = require("knex")({
     client: "pg",
     connection: {
-      host: "localhost",
-      user: "postgres",
-      password: "Yankees2017",
-      database: "testdatabase"
+      host: `${connection.connectionName}`,
+      user: `${connection.username}`,
+      password: `${connection.password}`,
+      database: `${connection.database}`
     }
   });
   knex
