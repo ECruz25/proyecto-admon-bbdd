@@ -80,17 +80,21 @@ const createMSSQLConnection = (connection, res) => {
     )
     .then(selection => {
       res.json(selection);
+    })
+    .catch(err => {
+      console.log("error", err);
     });
 };
 
 const createMySQLConnection = (connection, res) => {
+  console.log(connection);
   const knex = require("knex")({
     client: "mysql",
     connection: {
       host: "127.0.0.1",
-      user: `root`,
-      password: "root",
-      database: "mydb"
+      user: `${connection.username}`,
+      password: `${connection.password}`,
+      database: "*"
     }
   });
   knex
@@ -98,25 +102,31 @@ const createMySQLConnection = (connection, res) => {
     .from("INFORMATION_SCHEMA.events")
     .then(selection => {
       res.json(selection);
+    })
+    .catch(err => {
+      console.log("error", err);
     });
 };
 
 const createPOSTGRESQLConnection = (connection, res) => {
-  console.log("Entrooo");
   const knex = require("knex")({
     client: "pg",
     connection: {
       host: `${connection.connectionName}`,
       user: `${connection.username}`,
       password: `${connection.password}`,
-      database: `${connection.database}`
+      database: "postgres"
     }
   });
   knex
     .select("*")
-    .from("test")
+    .from("emp_data")
     .then(selection => {
       res.json(selection);
+      console.log(selection);
+    })
+    .catch(err => {
+      console.log(err);
     });
 };
 

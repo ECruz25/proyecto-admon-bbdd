@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import JobsList from './JobsList';
+import React, { Component } from "react";
+import JobsList from "./JobsList";
 
 class EditConnectionPage extends Component {
   componentDidMount() {

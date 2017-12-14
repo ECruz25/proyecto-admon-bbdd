@@ -10,7 +10,7 @@ router.post("/register", userController.register);
 router.post("/server/register", connectionController.register);
 router.get("/connection/getConnections", connectionController.getConnections);
 router.get(
-  "/connection/getConnections/:id/jobs",
+  "/connection/getConnections/:id",
   connectionController.getConnection
 );
 
