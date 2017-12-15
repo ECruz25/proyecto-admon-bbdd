@@ -1,57 +1,46 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class ConnectionForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      client: "mssql"
-    };
-  }
+  state = {
+    client: 'mssql',
+  };
 
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault();
-    fetch("/server/register", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({
-        form: this.state
-      })
-    });
+    try {
+      await fetch('/server/register', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          form: this.state,
+        }),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   onConnectionNameChange = e => {
     const connectionName = e.target.value;
-    this.setState(() => ({
-      connectionName
-    }));
-    console.log(this.state);
+    this.setState({ connectionName });
   };
 
   onClientChange = e => {
     const client = e.target.value;
-    this.setState(() => ({
-      client
-    }));
-    console.log(this.state);
+    this.setState({ client });
   };
 
   onUserNameChange = e => {
     const username = e.target.value;
-    this.setState(() => ({
-      username
-    }));
-    console.log(this.state);
+    this.setState({ username });
   };
 
   onPasswordChange = e => {
     const password = e.target.value;
-    this.setState(() => ({
-      password
-    }));
-    console.log(this.state);
+    this.setState({ password });
   };
 
   render() {
@@ -85,17 +74,15 @@ class ConnectionForm extends Component {
               <option value="mysql">MySQL</option>
             </select>
           </div>
-
           <div className="form-group">
             <label htmlFor="user" className="bmd-label-floating">
               User
             </label>
             <input
               type="text"
-              className="user"
               name="user"
               onChange={this.onUserNameChange}
-              className="connectionName form-control"
+              className="user connectionName form-control"
             />
           </div>
           <div className="form-group">
@@ -105,12 +92,10 @@ class ConnectionForm extends Component {
             <input
               onChange={this.onPasswordChange}
               type="password"
-              className="password"
               name="password"
-              className="connectionName form-control"
+              className="password connectionName form-control"
             />
           </div>
-
           <button type="submit" className="btn btn-primary btn-raised">
             Submit
           </button>

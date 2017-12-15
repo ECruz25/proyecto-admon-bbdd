@@ -8,6 +8,9 @@ class EditConnectionPage extends Component {
       .then(connections => {
         console.log(connections);
         this.setState({ connections });
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 

@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import ExpansionPanel, {
   ExpansionPanelSummary,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
 } from 'material-ui/ExpansionPanel';
 
 class Job extends Component {
-  constructor(props) {
-    super(props);
-    console.log(this.props);
-  }
   render() {
     return (
       <div className="success col-5 m-1">

@@ -1,19 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class UserForm extends Component {
   onSubmit = e => {
     e.preventDefault();
-    fetch('/register', {
+    fetch("/register", {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         form: this.state
       })
+    }).catch(err => {
+      console.log(err);
     });
-    console.log('information sent');
+    console.log("information sent");
   };
 
   onUserNameChange = e => {

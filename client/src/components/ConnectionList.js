@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class ConnectionList extends Component {
   constructor() {
@@ -10,11 +10,14 @@ class ConnectionList extends Component {
   }
 
   componentDidMount() {
-    fetch('/connection/getConnections')
+    fetch("/connection/getConnections")
       .then(res => res.json())
       .then(connections => {
         console.log(connections);
         this.setState({ connections });
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 
