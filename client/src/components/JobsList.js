@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import Job from './Job';
+import Job from './Job.jsx';
 
 class JobsList extends Component {
-  constructor() {
-    super();
-    this.state = {
-      newJobs: {},
-      jobsInfo: {},
-    };
-  }
+  state = {
+    newJobs: {},
+    jobsInfo: {},
+  };
 
   componentDidMount() {
     fetch(`/connection/getConnections/${this.props.match.params.id}`)
@@ -36,7 +33,6 @@ class JobsList extends Component {
           });
           return 0;
         });
-        console.log(jobsInfo);
         this.setState({ jobsInfo, newJobs: tempJobs });
       })
       .catch(err => {

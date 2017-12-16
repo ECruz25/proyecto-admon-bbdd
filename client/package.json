@@ -8,6 +8,7 @@
     "debug": "~2.6.9",
     "dotenv": "^4.0.0",
     "es6-promisify": "^5.0.0",
+    "eslint-plugin-html": "^4.0.1",
     "express": "~4.15.5",
     "express-validator": "^4.3.0",
     "jade": "~1.11.0",

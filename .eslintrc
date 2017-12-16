@@ -3,12 +3,14 @@
     "es6": true,
     "browser": true
   },
-  "extends": ["google"],
+  "extends": ["airbnb"],
   "rules": {
     "linebreak-style": "off",
     "comma-dangle": 1,
     "arrow-parens": ["error", "as-needed"],
-    "object-curly-spacing": 0
+    "object-curly-spacing": "off",
+    "react/jsx-filename-extension": "off",
+    "arrow-body-style": "off"
   },
   "parserOptions": {
     "sourceType": "module",

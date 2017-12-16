@@ -1,8 +1,6 @@
 const Connection = require('../models/Connection');
 
 exports.register = async (req, res) => {
-  console.log('entroo');
-  console.log(req.body.form);
   const connection = new Connection({
     connectionName: req.body.form.connectionName,
     client: req.body.form.client,
@@ -119,8 +117,23 @@ const createPOSTGRESQLConnection = (connection, res) => {
     },
   });
   knex
-    .select('*')
-    .from('emp_data')
+    .select(
+      { jobName: 'pgagent.pga_job.jobname' },
+      { stepName: 'pgagent.pga_jobstep.jstname' },
+      { status: 'pgagent.pga_jobsteplog.jslresult' },
+      { runDate: 'pgagent.pga_jobsteplog.jslstart' },
+    )
+    .from('pgagent.pga_jobstep')
+    .innerJoin(
+      'pgagent.pga_job',
+      'pgagent.pga_jobstep.jstjobid',
+      'pgagent.pga_job.jobid',
+    )
+    .innerJoin(
+      'pgagent.pga_jobsteplog',
+      'pgagent.pga_job.jobid',
+      'pgagent.pga_jobsteplog.jsljstid',
+    )
     .then(selection => {
       res.json(selection);
       console.log(selection);
@@ -129,5 +142,3 @@ const createPOSTGRESQLConnection = (connection, res) => {
       console.log(err);
     });
 };
-
-exports.createMSSQLConnection;
